@@ -7,24 +7,30 @@ HOST_TORRENTS = `pwd`/tmp/torrents
 clean:
 	python setup.py clean
 	find . -name '*.pyc' -delete
-	rm -rf build dist .eggs putio_automator.egg-info sdist
+	rm -rf build dist .eggs putio_automator.egg-info sdist tmp/*/*
 
 restart-watcher:
 	sudo supervisorctl restart watcher
 
 docker-run:
-	docker run --rm -i \
+	docker run --rm -it \
+		--privileged \
+		-e CHECK_DOWNLOADS_EVERY=2 \
+		-e LOG_LEVEL=DEBUG \
 		-e PUTIO_TOKEN=$(PUTIO_TOKEN)  \
-		-p 9001:9001 \
-		-v $(HOST_INCOMPLETE):/files/incomplete \
+		-e DOWNLOADS=/files/downloads \
+		-e INCOMPLETE=/files/incomplete \
+		-e TORRENTS=/files/torrents \
+		-p 9001:80 \
 		-v $(HOST_DOWNLOADS):/files/downloads \
+		-v $(HOST_INCOMPLETE):/files/incomplete \
 		-v $(HOST_TORRENTS):/files/torrents \
 		$(TAG)
 
 docker-bash:
 	docker run --rm -it \
 		-e PUTIO_TOKEN=$(PUTIO_TOKEN)  \
-		-p 9001:9001 \
+		-p 9001:80 \
 		-v $(HOST_INCOMPLETE):/files/incomplete \
 		-v $(HOST_DOWNLOADS):/files/downloads \
 		-v $(HOST_TORRENTS):/files/torrents \

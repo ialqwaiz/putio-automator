@@ -11,6 +11,6 @@ LOG_LEVEL = os.getenv('LOG_LEVEL', 'WARNING')
 MAIL_TO = os.getenv('MAIL_TO')
 PUTIO_TOKEN = os.getenv('PUTIO_TOKEN')
 
-DOWNLOADS = '/files/downloads'
-INCOMPLETE = '/files/incomplete'
-TORRENTS = '/files/torrents'
+DOWNLOADS = os.getenv('DOWNLOADS')
+INCOMPLETE = os.getenv('INCOMPLETE')
+TORRENTS = os.getenv('TORRENTS')
