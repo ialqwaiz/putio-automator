@@ -45,7 +45,7 @@ Initialize the application with a basic configuration locally for your user (rec
 
 Or for all users on your machine (not recommended):
 
-    putio config init --site
+    sudo -H putio config init --site
 
 This will interactively prompt you with some questions about where files should be stored, and your **Put.IO** `OAuth Token`.
 
