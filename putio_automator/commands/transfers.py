@@ -2,6 +2,7 @@
 Flask commands for managing transfers on Put.IO.
 """
 import json
+import os
 
 from flask_script import Command, Manager
 from putio_automator import date_handler
@@ -41,8 +42,16 @@ def clean():
 
 @manager.command
 def groom():
-    "Cancel seeding and completed transfers, and clean afterwards"
-    cancel_by_status(['SEEDING', 'COMPLETED'])
+    "Cancel completed and seeding transfers, and clean afterwards"
+    seeding = bool(int(os.getenv('GROOM_SEEDING', True)))
+
+    if seeding:
+        statuses = ['SEEDING', 'COMPLETED']
+    else:
+        statuses = ['COMPLETED']
+
+    cancel_by_status(statuses)
+
     clean()
 
 class List(Command):
