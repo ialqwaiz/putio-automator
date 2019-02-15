@@ -1,4 +1,4 @@
-FROM voldedore/rpi-omv:0.2.2
+FROM resin/rpi-raspbian:latest
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
